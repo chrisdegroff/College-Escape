@@ -19,9 +19,12 @@ function Update () {
      	//rotate to look at the player
 		myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
 		Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed*Time.deltaTime);
-
+		var walkForward = myTransform.TransformDirection(Vector3.forward);
+		var characterController : CharacterController;
+		characterController = GetComponent(CharacterController);
 		//move towards the player
-		myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
+		characterController.SimpleMove(walkForward*moveSpeed);
+//		myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
 	}
 	else {
 		SEEUSPatrolScript.patrol = true;
@@ -34,7 +37,7 @@ function CanAttackTarget() {
 		return false;
 	}
 	var hit : RaycastHit;
-/*	
+
 	// Check if there's collision between SEEUS and target
 	if(Physics.Linecast(transform.position, target.position, hit)) {
 		if(hit.collider.gameObject.tag != 'Player') {
@@ -46,6 +49,6 @@ function CanAttackTarget() {
 			return true;
 		}		
 	}
-*/	
+
 	return true;
 }
