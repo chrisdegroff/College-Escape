@@ -41,11 +41,9 @@ function CanAttackTarget() {
 	// Check if there's collision between SEEUS and target
 	if(Physics.Linecast(transform.position, target.position, hit)) {
 		if(hit.collider.gameObject.tag != 'Player') {
-			print('there\'s an item in the way: ' + hit.collider.gameObject.name);
 			return false;
 		}
 		else {
-			print('Player detected');
 			return true;
 		}		
 	}
