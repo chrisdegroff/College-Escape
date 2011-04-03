@@ -36,6 +36,7 @@ function CanAttackTarget() {
 	if(Vector3.Distance(transform.position, target.position) > range) {
 		return false;
 	}
+	
 	var hit : RaycastHit;
 
 	// Check if there's collision between SEEUS and target
