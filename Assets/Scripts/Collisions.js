@@ -1,6 +1,7 @@
 static var CD_AMMO = 0;
 static var ZIP_DISK_AMMO = 0;
 static var PLAYER_HEALTH = 100;
+static var PLAYER_LIVES = 3;
 static var BERSERK = false;
 static var ZIP_CANNON = false;
 var berserkTime;
@@ -9,7 +10,6 @@ static var Health_Display : String = "Health: " + PLAYER_HEALTH;
 static var CD_Display : String = "CD: " + CD_AMMO;
 static var Display_ZIP : String = "Zip Disk: " + ZIP_DISK_AMMO;
 static var Paused : boolean = false;
-
 
 function Start ()
 {
@@ -46,6 +46,23 @@ function Update ()
 	Health_Display = "Health: " + PLAYER_HEALTH;
 	CD_Display = "CD: " + CD_AMMO;
 	Display_ZIP = "Zip Disk: " + ZIP_DISK_AMMO;
+	
+	if(PLAYER_HEALTH <= 0) {
+		die();
+	}
+}
+
+function die() {
+	print('you = dead');
+	PLAYER_HEALTH = 100;
+	PLAYER_LIVES -= 1;
+	
+	if(PLAYER_LIVES > 0) {
+		Application.LoadLevel(Application.loadedLevel);
+	}
+	else {
+		Application.LoadLevel(0);
+	}
 }
 
 function OnControllerColliderHit ( hit : ControllerColliderHit)
@@ -66,6 +83,10 @@ function OnControllerColliderHit ( hit : ControllerColliderHit)
 		else {
 			Destroy(hit.gameObject);
 		}
+	}
+	else if (hit.gameObject.tag == "SeeUs") {
+		print('OUCH!');
+		PLAYER_HEALTH -= 20;
 	}
 	else if (hit.gameObject.tag == "Berserk" )
 	{

@@ -27,10 +27,8 @@ function Update () {
 }
 
 function OnControllerColliderHit ( hit : ControllerColliderHit) {
-	print('hit.gameobject.GetInstanceID' + hit.gameObject.GetInstanceID());
 	var id = hit.gameObject.GetInstanceID();
 	if(indexof(id) < 0) {
-print('not in array');
 		hitByWeaponArray.Add(hit.gameObject.GetInstanceID());
 		var damage = UtilScript.GetDamageBasedOnCharacterAndWeaponType(gameObject, hit.gameObject);
 		ApplyDamage(damage);
