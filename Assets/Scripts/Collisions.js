@@ -5,10 +5,36 @@ static var BERSERK = false;
 static var ZIP_CANNON = false;
 var berserkTime;
 var ellapsed;
+static var Health_Display : String = "Health: " + PLAYER_HEALTH;
+static var CD_Display : String = "CD: " + CD_AMMO;
+static var Display_ZIP : String = "Zip Disk: " + ZIP_DISK_AMMO;
+static var Paused : boolean = false;
+
 
 function Start ()
 {
 	berserkTime=Time.time;
+}
+
+function LateUpdate()
+{
+	if(Input.GetKeyDown("escape")){
+		if(Paused == false){
+			Time.timeScale = 0;
+			Paused = true;
+		}
+		else{
+			Time.timeScale = 1;
+			Paused = false;
+		}
+	}
+}
+
+function OnGUI ()
+{ 
+	Health_Display = GUI.TextArea(Rect ( 10, 10, 75, 25), Health_Display, 50);
+	CD_Display = GUI.TextArea(Rect ( 90, 10, 75, 25), CD_Display, 50);
+	Display_ZIP = GUI.TextArea(Rect ( 10, 40, 100, 25), Display_ZIP, 100);
 }
 
 function Update ()
@@ -17,6 +43,9 @@ function Update ()
 	if(ellapsed >= 60 && BERSERK == true) {
 		BERSERK = false;
 	}
+	Health_Display = "Health: " + PLAYER_HEALTH;
+	CD_Display = "CD: " + CD_AMMO;
+	Display_ZIP = "Zip Disk: " + ZIP_DISK_AMMO;
 }
 
 function OnControllerColliderHit ( hit : ControllerColliderHit)
