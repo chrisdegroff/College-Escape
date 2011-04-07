@@ -19,6 +19,9 @@ function Awake() {
 function ApplyDamage(damage: float) {
 	health -= damage;
 	if(health <= 0) {
+		if(gameObject.tag == 'SeeUs') {
+			Collisions.SCORE += 10;
+		}
 		Destroy(gameObject);
 	}
 }

@@ -9,7 +9,12 @@ var ellapsed;
 static var Health_Display : String = "Health: " + PLAYER_HEALTH;
 static var CD_Display : String = "CD: " + CD_AMMO;
 static var Display_ZIP : String = "Zip Disk: " + ZIP_DISK_AMMO;
+static var Display_Time_Remainng : String = "Time: " + Countdown_time;
+static var Display_Score : String = "Score: " + SCORE;
+static var SCORE = 0;
 static var Paused : boolean = false;
+static var Countdown_time = 0;
+
 
 function Start ()
 {
@@ -18,6 +23,7 @@ function Start ()
 
 function LateUpdate()
 {
+	calcTime();
 	if(Input.GetKeyDown("escape")){
 		if(Paused == false){
 			Time.timeScale = 0;
@@ -30,11 +36,19 @@ function LateUpdate()
 	}
 }
 
+function calcTime() {
+	Countdown_time = 300 - (Time.timeSinceLevelLoad);
+	Display_Time_Remainng = "Time: " + Countdown_time;
+}
+
 function OnGUI ()
 { 
 	Health_Display = GUI.TextArea(Rect ( 10, 10, 75, 25), Health_Display, 50);
 	CD_Display = GUI.TextArea(Rect ( 90, 10, 75, 25), CD_Display, 50);
-	Display_ZIP = GUI.TextArea(Rect ( 10, 40, 100, 25), Display_ZIP, 100);
+	//Display_ZIP = GUI.TextArea(Rect ( 10, 40, 100, 25), Display_ZIP, 100);
+	GUI.TextArea(Rect ( 10, 40, 100, 25), Display_Time_Remainng, 100);
+	GUI.TextArea(Rect ( 120, 40, 100, 25), Display_Score, 100);
+	
 }
 
 function Update ()
@@ -47,9 +61,10 @@ function Update ()
 	CD_Display = "CD: " + CD_AMMO;
 	Display_ZIP = "Zip Disk: " + ZIP_DISK_AMMO;
 	
-	if(PLAYER_HEALTH <= 0) {
+	if(PLAYER_HEALTH <= 0 || Countdown_time <= 0) {
 		die();
 	}
+	Display_Score = "Score: " + SCORE;
 }
 
 function die() {
