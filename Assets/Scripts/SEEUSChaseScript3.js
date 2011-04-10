@@ -31,7 +31,7 @@ function Update () {
 				comehere.Play();
 				playedComeHere = true;
 			}
-			SEEUSPatrolScript.patrol = false;
+			SEEUSPatrolScript3.patrol = false;
 			//rotate to look at the player
 			myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
 			Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed*Time.deltaTime);
@@ -55,7 +55,7 @@ function Update () {
 	}
 	else {
 		playedComeHere = false;
-		SEEUSPatrolScript.patrol = true;
+		SEEUSPatrolScript3.patrol = true;
 	}
 }
 

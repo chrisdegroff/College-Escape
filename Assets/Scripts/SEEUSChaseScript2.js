@@ -21,6 +21,7 @@ function waiting() {
 	if(Time.time - lastAttackTime > .35) {
 		return false;
 	}
+	print('waiting');
 	return true;
 }
 
@@ -31,7 +32,7 @@ function Update () {
 				comehere.Play();
 				playedComeHere = true;
 			}
-			SEEUSPatrolScript.patrol = false;
+			SEEUSPatrolScript2.patrol = false;
 			//rotate to look at the player
 			myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
 			Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed*Time.deltaTime);
@@ -55,7 +56,7 @@ function Update () {
 	}
 	else {
 		playedComeHere = false;
-		SEEUSPatrolScript.patrol = true;
+		SEEUSPatrolScript2.patrol = true;
 	}
 }
 

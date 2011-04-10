@@ -21,7 +21,6 @@ function waiting() {
 	if(Time.time - lastAttackTime > .35) {
 		return false;
 	}
-	print('waiting');
 	return true;
 }
 
@@ -29,11 +28,9 @@ function Update () {
 	if(target && CanAttackTarget()) {
 		if(!waiting()) {
 			if(!playedComeHere) {
-				print('i am: ' + gameObject.name);
 				comehere.Play();
 				playedComeHere = true;
 			}
-			print('setting SEEUSPatrolScript.patrol to false');
 			SEEUSPatrolScript1.patrol = false;
 			//rotate to look at the player
 			myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
