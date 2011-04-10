@@ -11,7 +11,6 @@ function indexof(v: int){
 
 function Awake() {
 	if(gameObject.tag == 'SeeUs') {
-	print('yes we\'re SeeUs');
 		health = 20;
 	}
 }

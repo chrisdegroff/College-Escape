@@ -11,10 +11,10 @@ static var CD_Display : String = "CD: " + CD_AMMO;
 static var Display_ZIP : String = "Zip Disk: " + ZIP_DISK_AMMO;
 static var Display_Time_Remainng : String = "Time: " + Countdown_time;
 static var Display_Score : String = "Score: " + SCORE;
+static var Display_Lives : String = "Lives: " + PLAYER_LIVES;
 static var SCORE = 0;
 static var Paused : boolean = false;
 static var Countdown_time = 0;
-
 
 function Start ()
 {
@@ -23,7 +23,6 @@ function Start ()
 
 function LateUpdate()
 {
-	calcTime();
 	if(Input.GetKeyDown("escape")){
 		if(Paused == false){
 			Time.timeScale = 0;
@@ -48,11 +47,12 @@ function OnGUI ()
 	//Display_ZIP = GUI.TextArea(Rect ( 10, 40, 100, 25), Display_ZIP, 100);
 	GUI.TextArea(Rect ( 10, 40, 100, 25), Display_Time_Remainng, 100);
 	GUI.TextArea(Rect ( 120, 40, 100, 25), Display_Score, 100);
-	
+	GUI.TextArea(Rect ( 175, 10, 80, 25), Display_Lives, 100);
 }
 
 function Update ()
 {
+	calcTime();
 	ellapsed=Time.time-berserkTime;
 	if(ellapsed >= 60 && BERSERK == true) {
 		BERSERK = false;
@@ -68,16 +68,19 @@ function Update ()
 }
 
 function die() {
-	print('you = dead');
 	PLAYER_HEALTH = 100;
 	PLAYER_LIVES -= 1;
-	
+	Display_Lives = "Lives: " + PLAYER_LIVES;
 	if(PLAYER_LIVES > 0) {
 		Application.LoadLevel(Application.loadedLevel);
 	}
 	else {
 		Application.LoadLevel(0);
 	}
+}
+
+static function ApplyDamageFromEnemy(damage: int) {
+	PLAYER_HEALTH -= damage;
 }
 
 function OnControllerColliderHit ( hit : ControllerColliderHit)
@@ -89,7 +92,6 @@ function OnControllerColliderHit ( hit : ControllerColliderHit)
 	if (hit.gameObject.tag == "Health" )
 	{
 		PLAYER_HEALTH += 10;
-		print('PLAYER_HEALTH: ' + PLAYER_HEALTH);
 		
 		print('name: ' + hit.gameObject.name);
 		if(hit.gameObject.name == 'MedkitRespawn') {
@@ -99,10 +101,6 @@ function OnControllerColliderHit ( hit : ControllerColliderHit)
 			Destroy(hit.gameObject);
 		}
 	}
-	else if (hit.gameObject.tag == "SeeUs") {
-		print('OUCH!');
-		PLAYER_HEALTH -= 20;
-	}
 	else if (hit.gameObject.tag == "Berserk" )
 	{
 		BERSERK = true;
@@ -110,13 +108,12 @@ function OnControllerColliderHit ( hit : ControllerColliderHit)
 		Destroy(hit.gameObject);
 		berserkTime = Time.time;
 	}
-	else if (hit.gameObject.tag == "CDAmmoPack" )
+	else if (hit.gameObject.tag == "CDAmmoPack" && CD_AMMO < 50)
 	{
 		CD_AMMO += 20;
 		if(CD_AMMO > 50) {
 			CD_AMMO = 50;
 		}
-		print('CD_AMMO: ' + CD_AMMO);
 		Destroy(hit.gameObject);
 	}
 	else if (hit.gameObject.tag == "ZIPAmmoPack" )
@@ -125,7 +122,6 @@ function OnControllerColliderHit ( hit : ControllerColliderHit)
 		if(ZIP_DISK_AMMO > 50) {
 			ZIP_DISK_AMMO = 50;
 		}
-		print('ZIP_DISK_AMMO: ' + ZIP_DISK_AMMO);
 		Destroy(hit.gameObject);
 	}
 }
