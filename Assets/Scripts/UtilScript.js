@@ -42,5 +42,10 @@ static function GetDamageBasedOnCharacterAndWeaponType(character: GameObject, we
 			return 20 * berserkMultiplier;
 		}
 	}
+	else if(character.tag == 'Player'){
+		if(weapon.tag == 'CD'){
+			return 5;
+		}
+	}
 	return 0;
 }

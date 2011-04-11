@@ -16,6 +16,8 @@ static var SCORE = 0;
 static var Paused : boolean = false;
 static var Countdown_time = 0;
 var weaponPickup : AudioSource;
+static var pausedTime: int = 0;
+static var pauseStart: int = 0;
 
 function Start ()
 {
@@ -26,10 +28,12 @@ function LateUpdate()
 {
 	if(Input.GetKeyDown("escape")){
 		if(Paused == false){
+			pauseStart = Time.timeSinceLevelLoad;
 			Time.timeScale = 0;
 			Paused = true;
 		}
 		else{
+			pausedTime = Time.timeSinceLevelLoad - pauseStart;
 			Time.timeScale = 1;
 			Paused = false;
 		}
@@ -37,8 +41,13 @@ function LateUpdate()
 }
 
 function calcTime() {
-	Countdown_time = 300 - (Time.timeSinceLevelLoad);
-	Display_Time_Remainng = "Time: " + Countdown_time;
+	if(Paused == false){
+		Countdown_time = 300 - (Time.timeSinceLevelLoad) + pausedTime;
+		Display_Time_Remainng = "Time: " + Countdown_time;
+	}
+	else{
+		Display_Time_Remainng = "Time: " + Countdown_time;
+	}
 }
 
 function OnGUI ()

@@ -13,6 +13,9 @@ function Awake() {
 	if(gameObject.tag == 'SeeUs') {
 		health = 20;
 	}
+	if(gameObject.tag == 'Boss'){
+	health = 100;
+	}
 }
 
 function ApplyDamage(damage: float) {
