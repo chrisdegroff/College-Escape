@@ -19,7 +19,7 @@ function ApplyDamage(damage: float) {
 	health -= damage;
 	if(health <= 0) {
 		if(gameObject.tag == 'SeeUs') {
-			Collisions.SCORE += 10;
+			Collisions.SCORE += 20;
 		}
 		Destroy(gameObject);
 	}

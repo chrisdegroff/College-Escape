@@ -21,7 +21,6 @@ function waiting() {
 	if(Time.time - lastAttackTime > .35) {
 		return false;
 	}
-	print('waiting');
 	return true;
 }
 
