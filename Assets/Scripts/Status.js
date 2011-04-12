@@ -16,6 +16,9 @@ function Awake() {
 	if(gameObject.tag == 'Boss'){
 		health = 500;
 	}
+	if(gameObject.tag == 'Mouse'){
+		health = 10;
+		}
 }
 
 function ApplyDamage(damage: float) {
@@ -28,6 +31,9 @@ function ApplyDamage(damage: float) {
 			Collisions.SCORE += 100;
 			Collisions.SCORE += ((2 + (Collisions.Countdown_time / 60 ) ) * Collisions.Countdown_time);
 			Application.LoadLevel(4);
+		}
+		if(gameObject.tag == 'Mouse'){
+			Collisions.SCORE += 10;
 		}
 		Destroy(gameObject);
 	}

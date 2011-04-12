@@ -18,10 +18,16 @@ static var Countdown_time = 0;
 var weaponPickup : AudioSource;
 static var pausedTime: int = 0;
 static var pauseStart: int = 0;
+var Fail : AudioSource;
+var Ice_Crack : AudioSource;
+
 
 function Start ()
 {
 	berserkTime=Time.time;
+	if(PLAYER_LIVES <= 2){
+		Fail.Play();
+	}
 }
 
 function LateUpdate()
@@ -42,8 +48,8 @@ function LateUpdate()
 
 function calcTime() {
 	if(Paused == false){
-		Countdown_time = 300 - (Time.timeSinceLevelLoad) + pausedTime;
-		Display_Time_Remainng = "Time: " + Countdown_time;
+		Countdown_time = 360 - (Time.timeSinceLevelLoad) + pausedTime;
+		Display_Time_Remainng = "Time: " + (Countdown_time - 60);
 	}
 	else{
 		Display_Time_Remainng = "Time: " + Countdown_time;
@@ -98,13 +104,16 @@ function Update ()
 	}
 */	
 	
-	if(PLAYER_HEALTH <= 0 || Countdown_time <= 0) {
+	if(PLAYER_HEALTH <= 0 || Countdown_time <= 60) {
 		die();
+	}
+	if(Countdown_time == 120){
+		Ice_Crack.Play();
 	}
 	Display_Score = "Score: " + SCORE;
 }
 
-function die() {
+function die() {	
 	PLAYER_HEALTH = 100;
 	PLAYER_LIVES -= 1;
 	Display_Lives = "Lives: " + PLAYER_LIVES;
