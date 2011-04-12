@@ -53,13 +53,13 @@ function calcTime() {
 function OnGUI ()
 { 
 	GUI.TextArea(Rect ( 10, 10, 75, 25), Health_Display, 50);
-	GUI.TextArea(Rect ( 90, 10, 85, 25), AMMO_Display, 50);
-	GUI.TextArea(Rect ( 185, 10, 80, 25), Display_Lives, 100);
+	GUI.TextArea(Rect ( 90, 10, 100, 25), AMMO_Display, 50);
+	GUI.TextArea(Rect ( 200, 10, 80, 25), Display_Lives, 100);
 	GUI.TextArea(Rect ( 10, 40, 100, 25), Display_Time_Remainng, 100);
 	GUI.TextArea(Rect ( 120, 40, 100, 25), Display_Score, 100);
 	
 	if(BERSERK == true) {
-		GUI.TextArea(Rect ( 10, 70, 180, 40), 'BERSERK! WEAPONS DOUBLED!', 100);
+		GUI.TextArea(Rect ( 10, 70, 180, 40), 'BERSERK! WEAPONS DOUBLED!  ' + (30 - ellapsed), 100);
 	}
 	
 }
@@ -67,6 +67,7 @@ function OnGUI ()
 function Update ()
 {
 	calcTime();
+	Time.timeScale = 1;
 	ellapsed=Time.time-berserkTime;
 	if(Input.GetKey(KeyCode.Alpha1)) {
 		WEAPON_INDEX = 1;
@@ -81,7 +82,7 @@ function Update ()
 		WEAPON_INDEX = 4;
 	}
 */	
-	if(ellapsed >= 60 && BERSERK == true) {
+	if(ellapsed >= 30 && BERSERK == true) {
 		BERSERK = false;
 	}
 	Health_Display = "Health: " + PLAYER_HEALTH;
@@ -113,6 +114,7 @@ function die() {
 	BERSERK = false;
 	ZIP_CANNON = false;
 	SCORE = 0;
+	LikeABoss.reset();
 
 
 	if(PLAYER_LIVES > 0) {
@@ -135,17 +137,21 @@ function OnControllerColliderHit ( hit : ControllerColliderHit)
 		weaponPickup.Play();
 		Destroy(hit.gameObject);
 	}
-	if (hit.gameObject.tag == "Health" )
+	if(hit.gameObject.tag == 'BossAmmo') {
+		PLAYER_HEALTH -= 2;
+		Destroy(hit.gameObject);		
+	}
+	if (hit.gameObject.tag == "Health")
 	{
 		PLAYER_HEALTH += 10;
-		
-		print('name: ' + hit.gameObject.name);
 		if(hit.gameObject.name == 'MedkitRespawn') {
+			PLAYER_HEALTH += 40;
 //			Respawn.RESPAWN_MEDKIT = true;
 		}
-		else {
-			Destroy(hit.gameObject);
+		if(PLAYER_HEALTH > 100) {
+			PLAYER_HEALTH = 100;
 		}
+		Destroy(hit.gameObject);
 	}
 	else if (hit.gameObject.tag == "Berserk" )
 	{
@@ -164,9 +170,9 @@ function OnControllerColliderHit ( hit : ControllerColliderHit)
 	else if (hit.gameObject.tag == "ZipAmmoPack" )
 	{
 		Destroy(hit.gameObject);
-		ZIP_DISK_AMMO += 20;
-		if(ZIP_DISK_AMMO > 200) {
-			ZIP_DISK_AMMO = 200;
+		ZIP_DISK_AMMO += 50;
+		if(ZIP_DISK_AMMO > 500) {
+			ZIP_DISK_AMMO = 500;
 		}
 	}
 }

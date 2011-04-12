@@ -18,7 +18,7 @@ function Start() {
 }
 
 function waiting() {
-	if(Time.time - lastAttackTime > .35) {
+	if(Time.time - lastAttackTime > .5) {
 		return false;
 	}
 	return true;

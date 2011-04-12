@@ -19,6 +19,11 @@ function Awake() {
 	lastThrowTime = Time.time;
 }
 
+static function reset() {
+	shoot = false;
+	BossPatrol.patrol = true;
+}
+
 function Start() {
 	 target = GameObject.FindWithTag("Player").transform; //target the player
 }
@@ -38,6 +43,7 @@ function Update () {
 			//	playedComeHere = true;
 			//}
 			BossPatrol.patrol = false;
+			shoot = true;
 			//rotate to look at the player
 			myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
 			Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed*Time.deltaTime);
@@ -50,12 +56,12 @@ function Update () {
 			var hit : RaycastHit;
 	
 			//Shoot the player with a cd, I hope
-			if((Time.time - lastThrowTime) > 5){
-				shoot = true;
-				}
-			else{
-				shoot = false;
-			}
+//			if((Time.time - lastThrowTime) > 5){
+//				shoot = true;
+//				}
+//			else{
+//				shoot = false;
+//			}
 			// Check if there's collision between SEEUS and target
 			if(Physics.Linecast(transform.position, target.position, hit)) {
 				if(hit.collider.gameObject.tag == 'Player' && hit.distance <= 1) {
@@ -67,8 +73,9 @@ function Update () {
 		}
 	}
 	else {
-	playedComeHere = false;
-	BossPatrol.patrol = true;
+		playedComeHere = false;
+		BossPatrol.patrol = true;
+		shoot = false;
 	}
 }
 

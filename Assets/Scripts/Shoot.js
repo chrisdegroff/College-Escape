@@ -19,7 +19,7 @@ function Update () {
 	}
 	else if(Collisions.WEAPON_INDEX == 2) {
 		if(Input.GetMouseButton(0)) {
-			if(Collisions.ZIP_DISK_AMMO > 0 ) {
+			if(Collisions.ZIP_DISK_AMMO > 0 && Collisions.ZIP_CANNON == true) {
 				if(!machineGun.isPlaying) {
 					machineGun.Play();
 				}

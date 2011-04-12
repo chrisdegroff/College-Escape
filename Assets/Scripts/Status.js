@@ -14,7 +14,7 @@ function Awake() {
 		health = 20;
 	}
 	if(gameObject.tag == 'Boss'){
-	health = 100;
+		health = 500;
 	}
 }
 
@@ -23,6 +23,11 @@ function ApplyDamage(damage: float) {
 	if(health <= 0) {
 		if(gameObject.tag == 'SeeUs') {
 			Collisions.SCORE += 20;
+		}
+		if(gameObject.tag == 'Boss') {
+			Collisions.SCORE += 100;
+			Collisions.SCORE += ((2 + (Collisions.Countdown_time / 60 ) ) * Collisions.Countdown_time);
+			Application.LoadLevel(4);
 		}
 		Destroy(gameObject);
 	}
@@ -40,6 +45,10 @@ function OnControllerColliderHit ( hit : ControllerColliderHit) {
 		var pos = hit.transform.position;
 	}
 	if(hit.gameObject.tag == 'CD') {
+		Instantiate(cdExplosionPrefab, pos, Quaternion.identity);
+		Destroy(hit.gameObject);
+	}
+	else if(hit.gameObject.tag == 'ZipDisk') {
 		Instantiate(cdExplosionPrefab, pos, Quaternion.identity);
 		Destroy(hit.gameObject);
 	}
